@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>BusinessContact </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="CSS/main.css">
+  <link rel="stylesheet" href="CSS/master.css">
+  <link rel="icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+	
+
+<!--===============================================================================================-->
+</head>
+<body>
+<%- include partials/header.ejs %>
+
+	<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" >
+				<span class="contact100-form-title">
+					Business Contact Details
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate="Please enter your name">
+					<input hidden type="text" name="id" id="id" value="<%= contact._id%>">
+					<input class="input100" id="name" type="text" name="name" placeholder="Full Name" value="<%= contact.name%>">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your email: e@a.x">
+					<input class="input100" id="email" type="text" name="email" placeholder="E-mail" value="<%= contact.email%>">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" id="contact_number" type="number" name="contact_number" placeholder="Phone" value="<%= contact.contact_number%>">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div >
+					<button id="delete" class="btn btn-danger">
+							Delete
+					</button>
+					<button id="update" class="btn btn-primary">
+						<span>
+							Update
+						</span>
+					</button>
+					<a href='/businessContactList' id="cancel" class="btn btn-light">
+						<span>
+							Cancel
+						</span>
+					</a>
+				</div>
+			</form>
+		</div>
+	</div>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(function() {
+
+		function validate(name,email,contact_number){
+			let errorMessage;
+			var mailFormat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+			if(!name) {
+				errorMessage = 'name can not be empty';
+			}else{
+				if(name.length<3){
+					errorMessage = 'name can not be less then 3 characters';
+				}else if(name.length>25){
+					errorMessage = 'name can not be greater then 25 characters';
+				}
+			};
+			if(!email) {
+				errorMessage = 'email can not be empty';
+			}else{
+				var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+				if (reg.test(email) == false)
+				{
+					alert('Invalid Email Address');
+				}
+			}
+			if(!contact_number) {
+				errorMessage = 'contact_number can not be empty';
+			}else{
+				if(isNaN(contact_number)){
+					errorMessage = 'contact number must be numbers';
+				}else if(contact_number.length != 10){
+					errorMessage = 'contact number must be of 10 Digits';
+				}
+			};
+			if(errorMessage) alert(errorMessage);
+		};
+
+		$("#delete").on("click", function () {
+			$.ajax({
+				type: 'delete',
+				data:{
+					id:"<%=contact.id%>"
+				},
+				url: '/businessContact',
+				success: function(result) {
+					alert(result);
+					window.location.href= '/contactList';
+				}
+			});
+		});
+
+		$("#update").on("click", function () {
+			let id=document.getElementById('id').value;
+			let name=document.getElementById('name').value;
+			let email=document.getElementById('email').value;
+			let contact_number=document.getElementById('contact_number').value;
+			validate(name,email,contact_number);
+			$.ajax({
+				type: 'put',
+				data:{
+					_id:id,
+					name:name,
+					email:email,
+					contact_number:contact_number
+				},
+				url: '/businessContact',
+				success: function(result) {
+					alert(result);
+				}
+			});
+		});
+
+	});
+</script>
+ <%- include partials/footer.ejs %>
+</body>
+</html>

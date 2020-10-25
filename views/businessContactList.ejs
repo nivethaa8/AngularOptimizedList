@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>BusinessContact </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="CSS/main.css">
+  <link rel="stylesheet" href="CSS/master.css">
+  <link rel="icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+
+<!--===============================================================================================-->
+</head>
+<body>
+<%- include partials/header.ejs %>
+
+	<div class="container-contact100">
+
+		<div class="table-responsive col col-10 mt-0">
+			<h2>
+				Business Contact Details
+			</h2>
+			<table class="table table-striped">
+				<tr class="row">
+					<th class="col col-1">
+						#
+					</th>
+					<th class="col">
+						Name
+					</th>
+					<th class="col">
+						Email
+					</th>
+					<th class="col">
+						Contact Number
+					</th>
+					<th class="col">
+						Actions
+					</th>
+				</tr>
+				<!-- loop to show all the contact -->
+				<% let indexNo=0;
+					contacts.forEach(contact => {
+						indexNo +=1;%>
+
+					<tr class="row">
+						<td class="col col-1">
+							<%= indexNo %>
+						</td>
+						<td class="col">
+							<%= contact.name %>
+						</td>
+						<td class="col">
+							<%= contact.email %>
+						</td>
+						<td class="col">
+							<%= contact.contact_number %>
+						</td>
+						<td class="col">
+							<a href='/businessContact?id=<%= contact._id %>' class="btn btn-primary">Update</a>
+							-
+							<button onclick="deleteCon('<%= contact._id %>')" class="btn btn-danger">Delete</button>
+						</td>
+					</tr>
+
+				<%});%>
+			</table>
+		</div>
+	</div>
+
+ <%- include partials/footer.ejs %>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function deleteCon(id){
+		$.ajax({
+			type: 'delete',
+			data:{
+				id:id
+			},
+			url: '/businessContact',
+			success: function(result) {
+				alert(result);
+				window.location.href= '/businessContactList';
+			}
+		});
+	}
+</script>
+</body>
+</html>

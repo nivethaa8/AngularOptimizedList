@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title><%= title %></title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="CSS/main.css">
+  <link rel="stylesheet" href="CSS/master.css">
+  <link rel="icon" href="favicon.ico">
+	<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+
+<!--===============================================================================================-->
+</head>
+<body>
+<%- include partials/header.ejs %>
+
+	<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<% if(resStatus){%>
+			<form class="contact100-form" action="/auth/logOut" method="post">
+				<div class="jumbotron">
+					<h2 class="logout-header">Logged In</h2>
+					<p class="logout-text">you are successfully logged in</p>
+					<button type="submit" class="logout-btn mt-5">
+						<span>
+							Log Out
+						</span>
+					</button>
+				</div>
+			</form>
+			<%}%>
+				<% if(!resStatus){%>
+			<form class="contact100-form" action="/auth" method="post">
+				<span class="contact100-form-title">
+					Log in
+				</span>
+				<% if(err){%>
+					<div class="alert alert-warning">
+						<%= err %>
+					</div>
+				<%}%>
+
+
+				<div class="wrap-input100 validate-input" data-validate="Please enter your name">
+					<input class="input100" type="text" name="username" placeholder="Full Name" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your password">
+					<input class="input100" type="password" name="password" placeholder="Password" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button id="login" class="btn">
+						<span>
+							login
+						</span>
+					</button>
+				</div>
+
+				</form>
+				<%}%>
+		</div>
+	</div>
+
+ <%- include partials/footer.ejs %>
+</body>
+</html>
